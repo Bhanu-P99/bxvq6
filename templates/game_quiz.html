@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> ADB Quiz 6</title>
+</head>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket;
+    var category;
+    var suffix;
+
+    $(document).ready(function(){
+        socket = io.connect('http://' + document.domain + ':' + location.port + '/game');
+
+        socket.on('connect', function() {
+            socket.emit('join', {username: "{{username}}",  room:"{{room}}" });
+        });
+
+        socket.on('status', function(data) {
+            document.getElementById("chat").innerHTML = document.getElementById("chat").innerHTML+ data.msg +"<br/>";
+        });
+
+        socket.on('message', function(data) {
+               category = "{{category}}";
+               suffix = data.msg.split("_")[1];
+               data.msg=data.msg.split("_")[0];
+
+               if( category == "professor" && suffix == "answer")
+                {
+                    data.msg = data.msg+"  "+'<input type="text" id="score" name="iscore" placeholder="score">' ;
+                }
+                else if(category == "student" && suffix == "question")
+                {
+                    data.msg = data.msg+"\nScore for this question is: ";
+                    console.log(data.msg);
+                }
+                document.getElementById("chat").innerHTML = document.getElementById("chat").innerHTML+data.msg+"<br/>";
+
+        });
+
+        $('#send').click(function(e) {
+                text = $('#text').val();
+                $('#text').val('');
+
+                if( category == "professor")
+                {
+                    text = text+"_question";
+                }
+                else if(category == "student")
+                {
+                    text = text+"_answer";
+                }
+                socket.emit('text', {  msg:text, username:"{{username}}",  room:"{{room}}" });
+        });
+
+
+
+
+    });
+
+</script>
+<body>
+<center>
+    <h1>Bhanu Srinivasa Prahasith Vasagiri</h1>
+    <h1>1001857486</h1>
+</center>
+<div>
+    <form action="{{url_for('quiz6_game')}}" enctype=multipart/form-data method="POST" style="border-style: solid;">
+        
+            <label for="chat">Room:</label>
+            <div id="chat" style="border-style:groove; width:500px; height:200px; margin: auto;text-align:left;"></div><br />
+            <label for="text">Game area</label>
+            <input type="text" id="text" name="answer"><br><br>
+            <button type="button" id="send">Send</button>
+    </form>
+</div>
+</body>
+</html>

@@ -10,6 +10,21 @@
         <h1>Bhanu Srinivasa Prahasith Vasagiri</h1>
         <h1>1001857486</h1>
     </center>
-    
+    <div>
+        
+         <form action="{{url_for('quiz6_game')}}" enctype=multipart/form-data method="POST" style="border-style:solid;">
+            Select Player: <br/><br/>
+            <input type="radio" name="user" value="player1" id="player1">
+            <label for="player1">Player 1</label>
+            <input type="radio" name="user" value="player2" id="player2">
+            <label for="player2">Player 2</label><br><br>
+            <label for="username">Enter player name: </label>
+            <input type="text" id="username" name="username"><br><br>
+            <label for="room">Room:</label>
+            <input type="text" id="room" name="room"><br><br>
+            <a href="/game_quiz"><input type="submit" value="login"></a>
+    </form>
+    </div>
+
 </body>
 </html>
