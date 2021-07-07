@@ -11,7 +11,7 @@
     var suffix;
 
     $(document).ready(function(){
-        socket = io.connect('http://' + document.domain + ':' + location.port + '/game');
+        socket = io.connect('http://' + document.domain + ':' + location.port + '/game_quiz');
 
         socket.on('connect', function() {
             socket.emit('join', {username: "{{username}}",  room:"{{room}}" });
